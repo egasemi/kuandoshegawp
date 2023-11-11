@@ -1,13 +1,17 @@
 import wpbot from 'whatsapp-web.js';
+import qrcode from "qrcode";
 import qrt from 'qrcode-terminal';
+import ejs from 'ejs'
+import express, { urlencoded } from "express"
 import mongoose from "mongoose";
 import { getAddress, getLocation } from './ksh.js';
 import { stopInfo, stopSearch } from './bot.js';
 import { normalizer } from './utils.js'
 import { MongoStore } from 'wwebjs-mongo';
 const { Client, LocalAuth, RemoteAuth } = wpbot
+const { toDataURL } = qrcode
 
-mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017').then(() => {
+mongoose.connect(process.env.MONGODB_URI || 'mongodb+srv://eleccionescfstg:nR56uu03VX7KGw3r@cluster1.ghmaxta.mongodb.net/wp_auth').then(() => {
     const store = new MongoStore({ mongoose })
     const client = new Client({
         puppeteer: {
@@ -18,9 +22,19 @@ mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017').then(()
             backupSyncIntervalMs: 300000
         })
     });
+    const app = express()
+    app.use(urlencoded({ extended: false }))
+    app.use(express.json())
+    app.set("view engine", "ejs")
 
     client.on('qr', qr => {
-        qrt.generate(qr, { small: true });
+        app.get('/scan', (req, res) => {
+            toDataURL(qr, (err, src) => {
+                if (err) res.send('error')
+
+                res.render("scan", { src })
+            })
+        })
     });
 
     client.on('authenticated', () => {
@@ -67,6 +81,9 @@ mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017').then(()
     })
 
     client.initialize();
+
+    const port = 5001;
+    app.listen(port, () => console.log("Server at 5000"));
 
 })
 
