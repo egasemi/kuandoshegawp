@@ -10,6 +10,9 @@ const { Client, LocalAuth, RemoteAuth } = wpbot
 mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017').then(() => {
     const store = new MongoStore({ mongoose })
     const client = new Client({
+        puppeteer: {
+            args: ['--no-sandbox']
+        },
         authStrategy: new RemoteAuth({
             store,
             backupSyncIntervalMs: 300000
