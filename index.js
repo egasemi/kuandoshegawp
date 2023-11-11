@@ -8,14 +8,14 @@ import { getAddress, getLocation } from './ksh.js';
 import { stopInfo, stopSearch } from './bot.js';
 import { normalizer } from './utils.js'
 import { MongoStore } from 'wwebjs-mongo';
-const { Client, LocalAuth, RemoteAuth } = wpbot
+const { Client, RemoteAuth } = wpbot
 const { toDataURL } = qrcode
 
-mongoose.connect(process.env.MONGODB_URI || 'mongodb+srv://eleccionescfstg:nR56uu03VX7KGw3r@cluster1.ghmaxta.mongodb.net/wp_auth').then(() => {
+mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/wp_auth').then(() => {
     const store = new MongoStore({ mongoose })
     const client = new Client({
         puppeteer: {
-            args: ['--no-sandbox']
+            args: ['--no-sandbox', '--disable-setuid-sandbox']
         },
         authStrategy: new RemoteAuth({
             store,
