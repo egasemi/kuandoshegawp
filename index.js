@@ -82,8 +82,8 @@ mongoose.connect(process.env.MONGODB_URI || 'mongodb+srv://eleccionescfstg:nR56u
 
     client.initialize();
 
-    const port = 5001;
-    app.listen(port, () => console.log("Server at 5000"));
+    const PORT = process.env.PORT || 5001;
+    app.listen(PORT, () => console.log(`Server at ${5000}`));
 
 })
 
