@@ -56,6 +56,8 @@ const initWSP = async (db) => {
             const stops = await stopSearch(dir.data)
 
             send(msj, stops.text, true)
+        } else if (msj.body === '!test') {
+            msj.react('✅')
         }
     })
 
