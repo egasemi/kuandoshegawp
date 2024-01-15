@@ -56,6 +56,10 @@ const send = async (req, res, reply) => {
     }
 }
 
+const default_responses = {
+    "gracias": "De nada :)"
+}
+
 module.exports = {
     flagColor,
     arribosFormat,
@@ -63,5 +67,6 @@ module.exports = {
     errorHandler,
     setCBData,
     checkSameMsj,
-    send
+    send,
+    default_responses
 };

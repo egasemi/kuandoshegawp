@@ -32,7 +32,7 @@ const stopInfo = async (stop) => {
             return { text };
         } else {
             return {
-                text: normalizer(`No hay próximos arribos a la parada */${stop}* 😔`),
+                text: normalizer(`No hay próximos arribos a la parada *#${stop}* 😔`),
             };
         }
     } catch (error) {

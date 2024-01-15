@@ -2,7 +2,7 @@ const qrcode = require('qrcode-terminal')
 const { Client, RemoteAuth } = require('whatsapp-web.js')
 const { MongoStore } = require('wwebjs-mongo')
 const { stopInfo, stopSearch } = require('../../../bot')
-const { normalizer, send } = require('../../utils')
+const { normalizer, send, default_responses } = require('../../utils')
 const { getAddress, getLocation } = require('../../../ksh')
 
 let clientWSP = null
@@ -58,6 +58,8 @@ const initWSP = async (db) => {
             send(msj, stops.text, true)
         } else if (msj.body === '!test') {
             msj.react('✅')
+        } else if (Object.keys(default_responses).includes(msj.body)) {
+            msj.reply(default_responses[msj.body])
         }
     })
 
