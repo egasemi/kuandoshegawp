@@ -1,4 +1,4 @@
-export const flagColor = (bondi) => {
+const flagColor = (bondi) => {
     const flag = bondi.linea.color;
     if (flag === 'black') return '⬛️';
     if (flag === 'red') return '🟥';
@@ -6,7 +6,7 @@ export const flagColor = (bondi) => {
     return '';
 };
 
-export const arribosFormat = (arribos) => {
+const arribosFormat = (arribos) => {
     if (arribos[0].arriboEnMinutos === 0) {
         return 'llegando';
     } else {
@@ -14,14 +14,14 @@ export const arribosFormat = (arribos) => {
     }
 };
 
-export const normalizer = (texto) => {
+const normalizer = (texto) => {
     return texto
         .normalize('NFD')
         .replace(/[\u0300-\u036f]/g, '')
         .replace(/[().]/g, '\\$&');
 };
 
-export const errorHandler = (error) => {
+const errorHandler = (error) => {
     if (error.response) {
         // The request was made and the server responded with a status code
         // that falls out of the range of 2xx
@@ -32,7 +32,7 @@ export const errorHandler = (error) => {
         // The request was made but no response was received
         // http.ClientRequest in node.js
         console.log('falló acá #2');
-        console.log(error.request);
+        //console.log(error.request);
         return;
     } else {
         // Something happened in setting up the request that triggered an Error
@@ -41,8 +41,27 @@ export const errorHandler = (error) => {
     }
 };
 
-export const setCBData = (id, stop) => JSON.stringify({ id, stop });
+const setCBData = (id, stop) => JSON.stringify({ id, stop });
 
-export const checkSameMsj = (new_text, old_text) => {
+const checkSameMsj = (new_text, old_text) => {
     return new_text?.replace(/[^\d]/g, '') !== old_text?.replace(/[^\d]/g, '');
+};
+
+const send = async (req, res, reply) => {
+    if (reply) {
+        req.reply(res)
+    } else {
+        const chat = await req.getChat()
+        chat.sendMessage(res)
+    }
+}
+
+module.exports = {
+    flagColor,
+    arribosFormat,
+    normalizer,
+    errorHandler,
+    setCBData,
+    checkSameMsj,
+    send
 };

@@ -1,7 +1,7 @@
-import { normalizer, errorHandler, flagColor, arribosFormat } from "./utils.js";
-import { getStop, getStops } from "./ksh.js";
+const { normalizer, errorHandler, flagColor, arribosFormat } = require("./src/utils.js");
+const { getStop, getStops } = require("./ksh.js");
 
-export const stopInfo = async (stop) => {
+const stopInfo = async (stop) => {
     try {
 
         const cuandollega = await getStop(stop);
@@ -41,7 +41,7 @@ export const stopInfo = async (stop) => {
     }
 };
 
-export const stopSearch = async (address) => {
+const stopSearch = async (address) => {
     try {
         const { geometry, properties } = address;
         const name = normalizer(properties.name);
@@ -59,3 +59,5 @@ export const stopSearch = async (address) => {
         errorHandler(error);
     }
 };
+
+module.exports = { stopInfo, stopSearch }

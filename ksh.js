@@ -1,11 +1,11 @@
-import axios from 'axios';
-import { errorHandler } from "./utils.js";
+const axios = require('axios');
+const { errorHandler } = require("./src/utils.js");
 
 const API_URL = 'https://ws.rosario.gob.ar/ubicaciones/public/';
 
 axios.defaults.baseURL = API_URL
 
-export const getLocation = async (latitud, longitud) => {
+const getLocation = async (latitud, longitud) => {
     try {
         return axios({
             url: 'geojson/direccion/punto',
@@ -19,7 +19,7 @@ export const getLocation = async (latitud, longitud) => {
     }
 };
 
-export const getAddress = async (term) => {
+const getAddress = async (term) => {
     try {
         return axios({
             url: 'geojson/ubicaciones',
@@ -34,7 +34,7 @@ export const getAddress = async (term) => {
     }
 };
 
-export const getStops = async (geometry) => {
+const getStops = async (geometry) => {
     try {
         return axios({
             url: 'paradas',
@@ -49,7 +49,7 @@ export const getStops = async (geometry) => {
     }
 };
 
-export const getStop = async (stop) => {
+const getStop = async (stop) => {
     try {
         return axios({
             url: 'cuandollega',
@@ -62,3 +62,4 @@ export const getStop = async (stop) => {
     }
 };
 
+module.exports = { getLocation, getAddress, getStops, getStop };
