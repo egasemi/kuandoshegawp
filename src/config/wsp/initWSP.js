@@ -2,7 +2,7 @@ const qrcode = require('qrcode-terminal')
 const { Client, RemoteAuth } = require('whatsapp-web.js')
 const { MongoStore } = require('wwebjs-mongo')
 const { stopInfo, stopSearch } = require('../../../bot')
-const { normalizer, send, default_responses } = require('../../utils')
+const { normalizer, send, default_responses, cleanString, isDefaultResponses } = require('../../utils')
 const { getAddress, getLocation } = require('../../../ksh')
 
 let clientWSP = null
@@ -34,14 +34,18 @@ const initWSP = async (db) => {
     })
 
     clientWSP.on('message', async (msj) => {
-        if (!isNaN(parseInt(msj.body)) && msj.body.length === 4) {
-            const { text } = await stopInfo(msj.body)
+        const cleanedString = cleanString(msj.body)
+        const idx = isDefaultResponses(msj.body)
+        if (!isNaN(parseInt(cleanedString)) && cleanedString.length === 4) {
+            const { text } = await stopInfo(cleanedString)
             send(msj, text, true)
+        } else if (idx !== -1) {
+            msj.reply(default_responses[Object.keys(default_responses)[idx]])
         } else if (/^(?!start\b)[\w\s]+$/.test(normalizer(msj.body))) {
             const esquinas = await getAddress(msj.body);
 
             var stops = {
-                text: 'La dirección o esquina no existe ¬¬'
+                text: 'La dirección o esquina no existe 🤌'
             };
 
             if (esquinas.data.features.length !== 0 && esquinas?.data.features[0].geometry !== null) {
@@ -58,8 +62,9 @@ const initWSP = async (db) => {
             send(msj, stops.text, true)
         } else if (msj.body === '!test') {
             msj.react('✅')
-        } else if (Object.keys(default_responses).includes(msj.body)) {
-            msj.reply(default_responses[msj.body])
+        } else {
+            console.log(idx)
+            console.log(/^(?!start\b)[\w\s]+$/.test(normalizer(msj.body)))
         }
     })
 

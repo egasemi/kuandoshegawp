@@ -57,8 +57,18 @@ const send = async (req, res, reply) => {
 }
 
 const default_responses = {
-    "gracias": "De nada :)"
+    "gracias": "De nada 😊",
+    "hola": "Holi! Mandame una esquina, una dirección, una ubicación o un número de parada para saber cuándo llega 😉"
 }
+
+const cleanString = (texto) => {
+    return texto.replace(/[^A-Za-z0-9]/g, '');
+};
+
+const isDefaultResponses = (texto) => {
+    return Object.keys(default_responses).findIndex(clave => new RegExp(clave, 'i').test(cleanString(texto)));
+}
+
 
 module.exports = {
     flagColor,
@@ -68,5 +78,7 @@ module.exports = {
     setCBData,
     checkSameMsj,
     send,
+    cleanString,
+    isDefaultResponses,
     default_responses
 };

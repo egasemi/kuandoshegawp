@@ -37,7 +37,7 @@ const stopInfo = async (stop) => {
         }
     } catch (error) {
         errorHandler(error);
-        return { text: 'La parada no existe' };
+        return { text: 'La parada no existe 🤌' };
     }
 };
 
@@ -51,7 +51,11 @@ const stopSearch = async (address) => {
         let text = `Paradas cercanas a *${name}:*\n\n`;
 
         stops.data.forEach((stop, idx) => {
-            text += `*#${stop.id}* -> ${stop.nombre}\n`
+            let nombre = stop.nombre
+            if (stops.data.filter(x => x.nombre === stop.nombre).length > 1) {
+                nombre = `${stop.nombre} _(${stop.descripcion.toLowerCase()})_`
+            }
+            text += `*#${stop.id}* -> ${nombre}\n`
         });
 
         return { text };
