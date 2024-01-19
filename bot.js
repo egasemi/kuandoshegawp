@@ -36,7 +36,8 @@ const stopInfo = async (stop) => {
             };
         }
     } catch (error) {
-        errorHandler(error);
+        const err = errorHandler(error);
+        console.log(err)
         return { text: 'La parada no existe 🤌' };
     }
 };
@@ -60,7 +61,9 @@ const stopSearch = async (address) => {
 
         return { text };
     } catch (error) {
-        errorHandler(error);
+        const err = errorHandler(error);
+        console.log(err)
+        return { text: 'se cayó el servicio de cuando llega 🙄' }
     }
 };
 

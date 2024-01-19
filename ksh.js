@@ -15,7 +15,8 @@ const getLocation = async (latitud, longitud) => {
             },
         });
     } catch (error) {
-        errorHandler(error);
+        const res = errorHandler(error);
+        console.log(res)
     }
 };
 
@@ -30,7 +31,8 @@ const getAddress = async (term) => {
             },
         });
     } catch (error) {
-        errorHandler(error);
+        const res = errorHandler(error);
+        console.log(res)
     }
 };
 
@@ -45,7 +47,8 @@ const getStops = async (geometry) => {
             },
         });
     } catch (error) {
-        errorHandler(error);
+        const res = errorHandler(error);
+        console.log(res)
     }
 };
 
@@ -58,7 +61,8 @@ const getStop = async (stop) => {
             },
         });
     } catch (error) {
-        errorHandler(error);
+        const res = errorHandler(error);
+        console.log(res)
     }
 };
 

@@ -22,22 +22,24 @@ const normalizer = (texto) => {
 };
 
 const errorHandler = (error) => {
-    if (error.response) {
-        // The request was made and the server responded with a status code
-        // that falls out of the range of 2xx
-        console.log('falló acá #1');
-        console.log(error.response.data);
-        return;
-    } else if (error.request) {
-        // The request was made but no response was received
-        // http.ClientRequest in node.js
-        console.log('falló acá #2');
-        //console.log(error.request);
-        return;
+    const { request, response } = error;
+    if (response) {
+        const { message } = response.data;
+        const status = response.status;
+        console.log(message)
+        return {
+            message: "Algo salió mal",
+            status,
+        };
+    } else if (request) {
+        //request sent but no response received
+        return {
+            message: "Está caído cuando llega 🙄",
+            status: 503,
+        };
     } else {
         // Something happened in setting up the request that triggered an Error
-        console.log('falló acá #3');
-        console.log('Error', error.message);
+        return { message: "Algo salió mal" };
     }
 };
 
