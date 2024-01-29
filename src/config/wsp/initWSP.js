@@ -13,7 +13,7 @@ const initWSP = async (db) => {
         authStrategy: new RemoteAuth({
             clientId: 'emi',
             store: store,
-            backupSyncIntervalMs: 60000
+            backupSyncIntervalMs: 10 * 60 * 1000
         }),
         puppeteer: {
             headless: true,
@@ -34,6 +34,7 @@ const initWSP = async (db) => {
     })
 
     clientWSP.on('message', async (msj) => {
+        (await msj.getChat()).sendStateTyping()
         const cleanedString = cleanString(msj.body)
         const idx = isDefaultResponses(msj.body)
         if (!isNaN(parseInt(cleanedString)) && cleanedString.length === 4) {
@@ -52,7 +53,7 @@ const initWSP = async (db) => {
                 const esquinas = await getAddress(msj.body);
 
                 var stops = {
-                    text: 'La dirección o esquina no existe 🤌'
+                    text: 'Disculpá esa calle no la conozco 🤌'
                 };
 
                 if (esquinas.data.features.length !== 0 && esquinas?.data.features[0].geometry !== null) {
