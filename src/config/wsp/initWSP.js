@@ -1,20 +1,14 @@
 const qrcode = require('qrcode-terminal')
-const { Client, RemoteAuth } = require('whatsapp-web.js')
-const { MongoStore } = require('wwebjs-mongo')
+const { Client, LocalAuth } = require('whatsapp-web.js')
 const { stopInfo, stopSearch } = require('../../../bot')
 const { normalizer, send, default_responses, cleanString, isDefaultResponses, errorHandler } = require('../../utils')
 const { getAddress, getLocation } = require('../../../ksh')
 
 let clientWSP = null
 
-const initWSP = async (db) => {
-    const store = new MongoStore({ mongoose: db })
+const initWSP = async () => {
     clientWSP = new Client({
-        authStrategy: new RemoteAuth({
-            clientId: 'emi',
-            store: store,
-            backupSyncIntervalMs: 10 * 60 * 1000
-        }),
+        authStrategy: new LocalAuth({ clientId: "ksh" }),
         puppeteer: {
             headless: true,
             args: ['--no-sandbox', '--disable-setuid-sandbox']
