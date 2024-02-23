@@ -8,7 +8,7 @@ let clientWSP = null
 
 const initWSP = async () => {
     clientWSP = new Client({
-        authStrategy: new LocalAuth({ clientId: "ksh" }),
+        authStrategy: new LocalAuth({ clientId: "ksh-prod" }),
         puppeteer: {
             headless: true,
             args: ['--no-sandbox', '--disable-setuid-sandbox']
