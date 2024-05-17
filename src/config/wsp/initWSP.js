@@ -1,8 +1,9 @@
 const qrcode = require('qrcode-terminal')
-const { Client, LocalAuth } = require('whatsapp-web.js')
+const { Client, LocalAuth, NoAuth } = require('whatsapp-web.js')
 const { stopInfo, stopSearch } = require('../../../bot')
 const { normalizer, send, default_responses, cleanString, isDefaultResponses, errorHandler } = require('../../utils')
 const { getAddress, getLocation } = require('../../../ksh')
+const wwebVersion = '2.2412.54';
 
 let clientWSP = null
 
@@ -12,6 +13,10 @@ const initWSP = async () => {
         puppeteer: {
             headless: true,
             args: ['--no-sandbox', '--disable-setuid-sandbox']
+        },
+        webVersionCache: {
+            type: 'remote',
+            remotePath: `https://raw.githubusercontent.com/wppconnect-team/wa-version/main/html/${wwebVersion}.html`,
         }
     })
 
